@@ -41,7 +41,7 @@ MODELS = [
 
 
 sessions: dict = {}
-
+embedder = Embedder()
 
 
 @app.post("/upload")
@@ -56,7 +56,7 @@ async def upload_pdf(file: UploadFile = File(...)):
     try:
         text     = Loader(tmp_path).load()
         chunks   = Chunker().chunker(text)
-        embedder = Embedder()
+        
         vectors  = embedder.embed(chunks)
         store    = VectorStorage(dimension=len(vectors[0]))
         store.add(vectors, chunks)
