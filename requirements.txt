@@ -8,4 +8,4 @@ PyPDF2
 faiss-cpu
 pydantic
 python-dotenv
-sentence-transformers
+
