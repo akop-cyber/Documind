@@ -7,7 +7,7 @@ class Embedder:
         self.model = SentenceTransformer("BAAI/bge-small-en-v1.5")
 
     def embed(self, chunks):
-        vectors = self.model.encode(chunks)
+        vectors = self.model.encode(chunks,batch_size = 32)
         return [np.array(v).flatten().tolist() for v in vectors]
 
     def embed_q(self, query):
