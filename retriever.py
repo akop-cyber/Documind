@@ -5,8 +5,9 @@ class Retriever:
         self.k = k
 
     def retrieve(self, query):
+        mquery = "Represent this question for retrieving relevant passages: " + query    
         
-        vquery = self.embedder.embed_q(query)
+        vquery = self.embedder.embed_q(mquery)
         
         
         scores, indices = self.vector_store.search(vquery, self.k)
