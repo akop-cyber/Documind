@@ -1,5 +1,5 @@
 class Retriever:
-    def __init__(self, vector_store, embedder, k=5):
+    def __init__(self, vector_store, embedder, k=3):
         self.vector_store = vector_store
         self.embedder = embedder
         self.k = k
