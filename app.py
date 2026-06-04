@@ -4,6 +4,8 @@ from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 from huggingface_hub import InferenceClient
 import tempfile, os, uuid, logging
+from rank_bm25 import BM25Okapi
+import re
 
 from loader import Loader
 from chunker import Chunker
@@ -56,15 +58,17 @@ async def upload_pdf(file: UploadFile = File(...)):
     try:
         text     = Loader(tmp_path).load()
         chunks   = Chunker().chunker(text)
+        tokenized_chunks = [re.findall(r"\w+", chunk.lower())for chunk in chunks]
         
         vectors  = embedder.embed(chunks)
         store    = VectorStorage(dimension=len(vectors[0]))
         store.add(vectors, chunks)
+        bm25 = BM25Okapi(tokenized_chunks)
     finally:
         os.unlink(tmp_path)
 
     session_id = str(uuid.uuid4())
-    sessions[session_id] = {"store": store, "embedder": embedder}
+    sessions[session_id] = {"store": store, "embedder": embedder,"bm25" : bm25}
 
     return {"session_id": session_id, "message": "PDF indexed. Ready to chat!"}
 
@@ -83,8 +87,9 @@ async def chat(req: ChatRequest):
 
     store    = session["store"]
     embedder = session["embedder"]
+    bm25 = session["bm25"]
 
-    retriever      = Retriever(store, embedder, k=3)
+    retriever      = Retriever(store, embedder,bm25)
     context_chunks = retriever.retrieve(req.message)
 
     if not context_chunks:
