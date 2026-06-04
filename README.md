@@ -32,7 +32,7 @@ Each component is a standalone Python module:
 | `chunker.py` | Splits text into overlapping semantic chunks |
 | `embedder.py` | Converts chunks to vectors using `sentence-transformers` |
 | `vector.py` | Stores and manages the in-memory vector index |
-| `retriever.py` | Finds top-k most relevant chunks via cosine similarity |
+| `retriever.py` | Finds top-k most relevant chunks via cosine similarity and keyword search through BM25 |
 | `app.py` | FastAPI backend — handles requests, orchestrates the pipeline |
 | `index.html` | Frontend UI with streaming response support |
 
@@ -41,7 +41,7 @@ Each component is a standalone Python module:
 ## Features
 
 - 📄 Upload any PDF and query it instantly
-- 🔍 Semantic retrieval using `sentence-transformers/all-MiniLM-L6-v2`
+- 🔍 Semantic retrieval using `sentence-transformers/all-MiniLM-L6-v2` and keyword search though "BM25"
 - 🚫 Hallucination control — refuses to answer when similarity score falls below threshold
 - ⚡ Streaming responses for a real-time chat feel
 - 🌐 Fully deployed — backend on Render, frontend on Netlify
@@ -50,7 +50,7 @@ Each component is a standalone Python module:
 
 ## Tech Stack
 
-**Backend:** Python, FastAPI, Sentence Transformers, scikit-learn, PyPDF2, NumPy  
+**Backend:** Python, FastAPI, Sentence Transformers, scikit-learn, PyPDF2, NumPy, BM25 
 **Frontend:** HTML, CSS, JavaScript (vanilla)  
 **Deployment:** Render (backend) · Netlify (frontend)
 
@@ -58,7 +58,7 @@ Each component is a standalone Python module:
 
 ## Hallucination Control
 
-If the cosine similarity score of the best-matching chunk is below `0.5`, the system refuses to answer and reports insufficient evidence. This ensures every response is traceable back to the document.
+If the similarity score of the best-matching chunk is below `0.5`, the system refuses to answer and reports insufficient evidence. This ensures every response is traceable back to the document.
 
 ---
 
