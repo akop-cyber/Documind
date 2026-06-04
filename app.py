@@ -96,14 +96,21 @@ async def chat(req: ChatRequest):
         return {"response": "I couldn't find relevant information in the document."}
 
     context_text  = "\n\n".join(context_chunks)
-    system_prompt = (
-        "You are a research assistant.\n"
-        "Format your answer STRICTLY like this:\n"
-        "- Use numbered headings\n"
-        "- Use bullet points under each heading\n"
-        "- Add line breaks between sections\n"
-        "- Keep spacing clean and readable\n"
-        "DO NOT write everything in one paragraph."
+    SYSTEM_PROMPT = (
+        "You are a helpful study assistant. Answer the user's question based ONLY on the provided context.\n\n"
+        "FORMATTING RULES (STRICT):\n"
+        "You MUST format your entire response using valid Markdown.\n"
+        "1. Use `##` for main section headings.\n"
+        "2. Use `**bold text**` for subheadings.\n"
+        "3. Use `- ` (a hyphen followed by a space) for bullet points.\n"
+        "4. CRITICAL: You MUST leave a completely blank line (two newline characters) before every heading and every bullet point.\n"
+        "5. Do not write long paragraphs. Keep points concise.\n\n"
+        "EXAMPLE OF EXACT OUTPUT FORMAT:\n"
+        "## 1. The Treaty of Vienna\n\n"
+        "- Signed in 1815\n"
+        "- Aimed to restore order\n\n"
+        "## 2. Key Provisions\n\n"
+        "- Created the German Confederation\n"
     )
 
     messages = [{"role": "system", "content": system_prompt}]
