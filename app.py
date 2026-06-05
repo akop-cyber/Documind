@@ -96,7 +96,7 @@ async def chat(req: ChatRequest):
         return {"response": "I couldn't find relevant information in the document."}
 
     context_text  = "\n\n".join(context_chunks)
-    SYSTEM_PROMPT = (
+    system_prompt = (
         "You are a helpful study assistant. Answer the user's question based ONLY on the provided context.\n\n"
         "FORMATTING RULES (STRICT):\n"
         "You MUST format your entire response using valid Markdown.\n"
