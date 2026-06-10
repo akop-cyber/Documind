@@ -1,0 +1,14 @@
+# Ignore environment variables and secrets
+.env
+.env.local
+
+# Ignore Python virtual environments
+venv/
+env/
+__pycache__/
+*.pyc
+
+# Ignore temporary files and large uploads
+*.pdf
+temp/
+.DS_Store

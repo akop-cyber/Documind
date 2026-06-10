@@ -1,4 +1,4 @@
-import PyPDF2
+import pymupdf4llm
 
 
 class Loader:
@@ -9,9 +9,6 @@ class Loader:
         self.file = file_path
 
     def load(self):
-        reader = PyPDF2.PdfReader(self.file)
-        text = ""
+        text = pymupdf4llm.to_markdown(self.file)
 
-        for page in reader.pages:
-            text = text + page.extract_text()
         return text

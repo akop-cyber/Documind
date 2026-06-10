@@ -57,12 +57,12 @@ async def upload_pdf(file: UploadFile = File(...)):
 
     try:
         text     = Loader(tmp_path).load()
-        chunks   = Chunker().chunker(text)
+        chunks, tables   = Chunker().chunker(text)
         tokenized_chunks = [re.findall(r"\w+", chunk.lower())for chunk in chunks]
-        
-        vectors  = embedder.embed(chunks)
+        all_chunks = chunks + tables
+        vectors  = embedder.embed(all_chunks)
         store    = VectorStorage(dimension=len(vectors[0]))
-        store.add(vectors, chunks)
+        store.add(vectors, all_chunks)
         bm25 = BM25Okapi(tokenized_chunks)
     finally:
         os.unlink(tmp_path)
