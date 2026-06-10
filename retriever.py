@@ -19,6 +19,8 @@ class Retriever:
         
         faiss_scores, faiss_indices = self.vector_store.search(vquery, self.k)
 
+        faiss_scores = faiss_scores.flatten().tolist()
+
         bm25_scores = self.bm25.get_scores(query_tokens)
         bm25_indices = np.argsort(bm25_scores)[::-1][:self.k]
         bm25_top_scores = bm25_scores[bm25_indices]
@@ -34,7 +36,7 @@ class Retriever:
 
         faiss_dict = {
             idx : score
-            for idx , score in zip(faiss_indices,faiss_norm)
+            for idx , score in zip(faiss_indices.flatten().tolist(),faiss_norm)
         }
 
         bm25_dict = {
@@ -43,7 +45,7 @@ class Retriever:
         }
 
 
-        candidates = set(faiss_indices.tolist() + bm25_indices.tolist())
+        candidates = set(faiss_indices.flatten().tolist() + bm25_indices.tolist())
 
         final = []
 

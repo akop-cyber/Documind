@@ -4,7 +4,7 @@ huggingface-hub
 python-multipart
 requests
 numpy
-PyPDF2
+pymupdf4llm
 faiss-cpu
 pydantic
 python-dotenv
