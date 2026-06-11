@@ -9,6 +9,7 @@ class Loader:
         self.file = file_path
 
     def load(self):
+        pymupdf4llm.use_layout(False)
         text = pymupdf4llm.to_markdown(self.file)
 
         return text
