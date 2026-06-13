@@ -1,4 +1,4 @@
-import pymupdf4llm
+import fitz
 
 
 class Loader:
