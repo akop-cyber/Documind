@@ -12,7 +12,7 @@ class Loader:
         text_chunks = []
     
     
-        doc = fitz.open(pdf_path)
+        doc = fitz.open(self.file)
     
         for page in doc:
         
