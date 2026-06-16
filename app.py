@@ -57,7 +57,7 @@ async def upload_pdf(file: UploadFile = File(...)):
 
     try:
         text     = Loader(tmp_path).load()
-        chunks, tables   = Chunker().chunker(text)
+        chunks = Chunker().chunker(text)
         tokenized_chunks = [re.findall(r"\w+", chunk.lower())for chunk in chunks]
         all_chunks = chunks + tables
         vectors  = embedder.embed(all_chunks)
