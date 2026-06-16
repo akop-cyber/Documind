@@ -47,4 +47,4 @@ class Chunker:
             
             start = end - self.overlap
             
-        return chunks, tables
+        return chunks
